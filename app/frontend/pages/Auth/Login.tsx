@@ -10,9 +10,11 @@ interface Props {
 
 export default function Login({ errors: serverErrors, email: serverEmail, success }: Props) {
   const { data, setData, post, processing, errors } = useForm({
-    email: serverEmail || '',
-    password: '',
-    remember: false as boolean,
+    user: {
+      email: serverEmail || '',
+      password: '',
+      remember: false as boolean,
+    },
   });
 
   useEffect(() => {
@@ -66,11 +68,11 @@ export default function Login({ errors: serverErrors, email: serverEmail, succes
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
-                value={data.email}
-                onChange={(e) => setData('email', e.target.value)}
+                value={data.user.email}
+                onChange={(e) => setData('user.email', e.target.value)}
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              {errors['user.email'] && (
+                <p className="mt-1 text-sm text-red-600">{errors['user.email']}</p>
               )}
             </div>
             <div>
@@ -85,11 +87,11 @@ export default function Login({ errors: serverErrors, email: serverEmail, succes
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
-                value={data.password}
-                onChange={(e) => setData('password', e.target.value)}
+                value={data.user.password}
+                onChange={(e) => setData('user.password', e.target.value)}
               />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+              {errors['user.password'] && (
+                <p className="mt-1 text-sm text-red-600">{errors['user.password']}</p>
               )}
             </div>
           </div>
@@ -101,8 +103,8 @@ export default function Login({ errors: serverErrors, email: serverEmail, succes
                 name="remember"
                 type="checkbox"
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                checked={data.remember}
-                onChange={(e) => setData('remember', e.target.checked)}
+                checked={data.user.remember}
+                onChange={(e) => setData('user.remember', e.target.checked)}
               />
               <label htmlFor="remember" className="ml-2 block text-sm text-gray-900">
                 Remember me

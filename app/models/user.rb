@@ -30,6 +30,7 @@ class User < ApplicationRecord
 
   private
 
+  # TODO: this is temporary - probably do a default username and then allow them to change it
   def set_username
     self.username = email.split('@').first
   end

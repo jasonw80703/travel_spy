@@ -29,7 +29,6 @@ export default function Signup({ errors: serverErrors, email: serverEmail, succe
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log('Submitting form with data:', data);
     post('/signup');
   };
 
