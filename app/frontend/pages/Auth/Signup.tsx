@@ -1,15 +1,35 @@
 import { useForm } from '@inertiajs/react';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
+import { router } from '@inertiajs/react';
 
-export default function Signup() {
-  const { data, setData, post, processing, errors } = useForm({
-    email: '',
+interface Props {
+  errors?: string[];
+  email?: string;
+  success?: boolean;
+}
+
+type FormData = {
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export default function Signup({ errors: serverErrors, email: serverEmail, success }: Props) {
+  const { data, setData, post, processing, errors } = useForm<FormData>({
+    email: serverEmail || '',
     password: '',
-    password_confirmation: '',
+    password_confirmation: ''
   });
+
+  useEffect(() => {
+    if (success) {
+      router.visit('/');
+    }
+  }, [success]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    console.log('Submitting form with data:', data);
     post('/signup');
   };
 
@@ -21,6 +41,24 @@ export default function Signup() {
             Create your account
           </h2>
         </div>
+        {serverErrors && serverErrors.length > 0 && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">
+                  There were errors with your submission
+                </h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <ul className="list-disc pl-5 space-y-1">
+                    {serverErrors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>

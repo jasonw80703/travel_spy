@@ -25,4 +25,12 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :email, uniqueness: true
+
+  before_create :set_username
+
+  private
+
+  def set_username
+    self.username = email.split('@').first
+  end
 end
