@@ -25,13 +25,20 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :email, uniqueness: true
+  validates :username, uniqueness: true
 
   before_create :set_username
 
   private
 
-  # TODO: this is temporary - probably do a default username and then allow them to change it
   def set_username
-    self.username = email.split('@').first
+    count = 0
+    loop do
+      count += 1
+      self.username = Users::UsernameGeneratorService.call
+      break unless User.exists?(username: username)
+
+      raise if count > 10
+    end
   end
 end

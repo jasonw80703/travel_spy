@@ -1,16 +1,10 @@
 import { Head, Link } from '@inertiajs/react';
-
-interface PageProps {
-  auth?: {
-    user: {
-      email: string;
-    } | null;
-  };
-}
+import AuthMiddleware from '../../components/AuthMiddleware';
+import { PageProps } from '../../types/auth';
 
 export default function Home({ auth }: PageProps) {
   return (
-    <>
+    <AuthMiddleware auth={auth}>
       <Head title="Home" />
       <div className="min-h-screen bg-gray-100">
         <div className="py-12">
@@ -28,16 +22,12 @@ export default function Home({ auth }: PageProps) {
                     Logout
                   </Link>
                 </div>
-                {auth?.user ? (
-                  <p>Welcome back, {auth.user.email}!</p>
-                ) : (
-                  <p>Please sign in to continue.</p>
-                )}
+                <p>Welcome back, <span className="font-bold">{auth?.user?.username}</span>!</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </AuthMiddleware>
   );
 } 

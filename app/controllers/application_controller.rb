@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     {
       user:
         current_user.as_json(
-          only: %i[id email]
+          only: %i[id email username]
         ),
     }
   }

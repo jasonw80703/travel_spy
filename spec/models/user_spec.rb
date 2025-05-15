@@ -20,5 +20,18 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'callbacks' do
+    describe '#set_username' do
+      it 'generates a unique username' do
+        user = FactoryBot.create(:user)
+        expect(user.username).to be_present
+      end
+
+      it 'raises an error if the username is not unique' do
+        user = FactoryBot.create(:user)
+        another_user = FactoryBot.build(:user, username: user.username)
+        expect { another_user.save! }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
 end
