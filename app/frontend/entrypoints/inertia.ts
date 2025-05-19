@@ -12,7 +12,7 @@ createInertiaApp({
   // Set default page title
   // see https://inertia-rails.dev/guide/title-and-meta
   //
-  // title: title => title ? `${title} - App` : 'App',
+  title: title => title ? title : 'Travel Spy',
 
   // Disable progress bar
   //
