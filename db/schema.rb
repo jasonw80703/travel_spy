@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_16_214616) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_19_192316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "country_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_cities_on_country_id"
+    t.index ["name", "country_id"], name: "index_cities_on_name_and_country_id", unique: true
+  end
 
   create_table "countries", force: :cascade do |t|
     t.string "name", null: false
@@ -34,4 +43,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_214616) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "cities", "countries"
 end

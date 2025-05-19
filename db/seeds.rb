@@ -21,3 +21,16 @@ COUNTRIES = [
 ]
 
 Country.insert_all(COUNTRIES, unique_by: :code)
+
+CITIES = [
+  { name: 'New York', country_id: Country.find_by(code: 'US').id },
+  { name: 'Toronto', country_id: Country.find_by(code: 'CA').id },
+  { name: 'Mexico City', country_id: Country.find_by(code: 'MX').id },
+  { name: 'London', country_id: Country.find_by(code: 'UK').id },
+  { name: 'Sydney', country_id: Country.find_by(code: 'AU').id },
+  { name: 'Tokyo', country_id: Country.find_by(code: 'JP').id },
+  { name: 'Beijing', country_id: Country.find_by(code: 'CN').id },
+  { name: 'Mumbai', country_id: Country.find_by(code: 'IN').id }
+]
+
+City.insert_all(CITIES, unique_by: %i[name country_id])
