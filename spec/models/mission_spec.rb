@@ -23,5 +23,17 @@
 require 'rails_helper'
 
 RSpec.describe Mission, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'AASM' do
+    describe 'callbacks' do
+      describe '#create_state_change!' do
+        it 'creates a state change' do
+          mission = FactoryBot.create(:mission)
+          mission.start!
+          expect(mission.mission_state_changes.count).to eq(1)
+          expect(mission.mission_state_changes.first.from_state).to eq('pending')
+          expect(mission.mission_state_changes.first.to_state).to eq('active')
+        end
+      end
+    end
+  end
 end

@@ -26,11 +26,15 @@ class Mission < ApplicationRecord
   belongs_to :user
   belongs_to :city
 
+  has_many :mission_state_changes, dependent: :destroy
+
   aasm column: :state do
     state :pending, initial: true
     state :active
     state :completed
     state :failed
+
+    after_all_transitions :create_state_change!
 
     event :start do
       transitions from: :pending, to: :active
@@ -43,5 +47,11 @@ class Mission < ApplicationRecord
     event :fail do
       transitions from: :active, to: :failed
     end
+  end
+
+  private
+
+  def create_state_change!
+    MissionStateChange.create(mission: self, from_state: aasm.from_state, to_state: aasm.to_state)
   end
 end
