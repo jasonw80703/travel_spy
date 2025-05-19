@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_19_203533) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_19_215224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_203533) do
     t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.bigint "mission_id", null: false
+    t.integer "task_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mission_id"], name: "index_tasks_on_mission_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", null: false
@@ -68,4 +78,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_203533) do
   add_foreign_key "mission_state_changes", "missions"
   add_foreign_key "missions", "cities"
   add_foreign_key "missions", "users"
+  add_foreign_key "tasks", "missions"
 end
