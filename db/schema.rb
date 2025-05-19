@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_19_192316) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_19_200629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,6 +31,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_192316) do
     t.index ["code"], name: "index_countries_on_code", unique: true
   end
 
+  create_table "missions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "city_id", null: false
+    t.string "state", default: "pending", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city_id"], name: "index_missions_on_city_id"
+    t.index ["user_id"], name: "index_missions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", null: false
@@ -45,4 +56,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_192316) do
   end
 
   add_foreign_key "cities", "countries"
+  add_foreign_key "missions", "cities"
+  add_foreign_key "missions", "users"
 end

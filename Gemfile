@@ -61,5 +61,6 @@ group :test do
 end
 
 gem "inertia_rails", "~> 3.8"
-gem 'devise'
+gem "devise"
+gem "aasm"
 gem "vite_rails", "~> 3.0"
